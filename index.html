@@ -6,56 +6,26 @@
     <title>Meus Links Rastreáveis</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: #0a0a0a;
             color: #ffffff;
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 20px;
         }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-            color: #00ff88;
-        }
-
-        .subtitle {
-            color: #888;
-            margin-bottom: 40px;
-            font-size: 14px;
-        }
-
-        /* Formulário */
-        .form-card {
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { font-size: 28px; margin-bottom: 10px; color: #00ff88; }
+        .subtitle { color: #888; margin-bottom: 30px; font-size: 14px; }
+        .form-card, .links-section {
             background: #1a1a1a;
             border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 40px;
+            padding: 25px;
+            margin-bottom: 30px;
             border: 1px solid #333;
         }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; }
         input {
             width: 100%;
             padding: 12px 16px;
@@ -64,14 +34,8 @@
             background: #0a0a0a;
             color: white;
             font-size: 14px;
-            font-family: inherit;
         }
-
-        input:focus {
-            outline: none;
-            border-color: #00ff88;
-        }
-
+        input:focus { outline: none; border-color: #00ff88; }
         button {
             width: 100%;
             padding: 14px;
@@ -82,50 +46,7 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
         }
-
-        button:hover {
-            transform: translateY(-2px);
-        }
-
-        /* Resultado */
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            background: #0a0a0a;
-            border-radius: 10px;
-            display: none;
-            border: 1px solid #00ff88;
-        }
-
-        .result a {
-            color: #00ff88;
-            word-break: break-all;
-        }
-
-        /* Lista de links */
-        .links-section {
-            background: #1a1a1a;
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid #333;
-        }
-
-        .links-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .total-clicks {
-            color: #00ff88;
-            font-weight: 600;
-        }
-
         .link-item {
             background: #0a0a0a;
             padding: 15px;
@@ -135,74 +56,65 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
         }
-
-        .link-info {
-            flex: 1;
+        .link-info { flex: 1; }
+        .link-name { font-weight: 600; margin-bottom: 5px; }
+        .link-url { font-size: 11px; color: #888; word-break: break-all; }
+        .link-clicks { color: #00ff88; font-weight: 700; font-size: 18px; }
+        .btn-edit {
+            background: #ffc107;
+            color: #0a0a0a;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 5px;
         }
-
-        .link-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .link-url {
-            font-size: 12px;
-            color: #888;
-            word-break: break-all;
-        }
-
-        .link-stats {
-            text-align: right;
-        }
-
-        .link-clicks {
-            color: #00ff88;
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        .link-label {
-            font-size: 11px;
-            color: #666;
-        }
-
         .btn-delete {
             background: #dc3545;
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 6px 12px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 12px;
-            width: auto;
         }
-
-        .btn-delete:hover {
-            transform: translateY(-2px);
+        .empty-state { text-align: center; color: #666; padding: 30px; }
+        .total-clicks { color: #00ff88; font-weight: 600; margin-bottom: 15px; }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
         }
-
-        .empty-state {
-            text-align: center;
-            color: #666;
-            padding: 40px;
+        .modal-content {
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid #00ff88;
         }
-
-        @media (max-width: 768px) {
-            body { padding: 20px; }
-            .form-card, .links-section { padding: 20px; }
-            .link-item { flex-direction: column; text-align: center; }
-            .link-stats { text-align: center; }
+        .modal-content h3 { color: #00ff88; margin-bottom: 20px; }
+        .close-modal {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+            color: #888;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🔗 Meus Links Rastreáveis</h1>
-        <p class="subtitle">Crie links e veja quantas pessoas clicaram. Dados salvos no seu navegador.</p>
+        <p class="subtitle">Crie links e veja quantas pessoas clicaram</p>
 
-        <!-- Formulário para criar link -->
         <div class="form-card">
             <div class="form-group">
                 <label>📝 Nome do link</label>
@@ -213,45 +125,50 @@
                 <input type="text" id="linkUrl" placeholder="https://exemplo.com">
             </div>
             <div class="form-group">
-                <label>🏷️ Slug (identificador único)</label>
+                <label>🏷️ Slug (identificador)</label>
                 <input type="text" id="linkSlug" placeholder="Ex: promocao-instagram">
-                <small style="color: #666;">Use letras minúsculas e hífen. Ex: promocao-instagram</small>
             </div>
-            <button onclick="createLink()">✨ Criar Link Rastreável</button>
-            <div id="result" class="result"></div>
+            <button onclick="createLink()">✨ Criar Link</button>
+            <div id="result" style="margin-top: 15px; color: #00ff88; font-size: 14px;"></div>
         </div>
 
-        <!-- Lista de links -->
         <div class="links-section">
-            <div class="links-header">
-                <h3>📊 Meus Links</h3>
-                <div class="total-clicks" id="totalClicks">Total: 0 cliques</div>
-            </div>
+            <div class="total-clicks" id="totalClicks">Total: 0 cliques</div>
             <div id="linksList"></div>
         </div>
     </div>
 
-    <script>
-        // Chave para salvar no localStorage
-        const STORAGE_KEY = 'meus_links_rastreaveis';
+    <!-- Modal de Edição -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeEditModal()">&times;</span>
+            <h3>✏️ Editar Link</h3>
+            <input type="hidden" id="editId">
+            <div class="form-group">
+                <label>📝 Nome do link</label>
+                <input type="text" id="editName">
+            </div>
+            <div class="form-group">
+                <label>🔗 URL de destino</label>
+                <input type="text" id="editUrl">
+            </div>
+            <button onclick="saveEdit()">💾 Salvar</button>
+        </div>
+    </div>
 
-        // Carregar links do localStorage
+    <script>
+        const STORAGE_KEY = 'meus_links_rastreaveis';
+        let editId = null;
+
         function loadLinks() {
             const saved = localStorage.getItem(STORAGE_KEY);
             return saved ? JSON.parse(saved) : [];
         }
 
-        // Salvar links no localStorage
         function saveLinks(links) {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
         }
 
-        // Gerar ID único
-        function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2);
-        }
-
-        // Criar novo link
         function createLink() {
             const name = document.getElementById('linkName').value.trim();
             const url = document.getElementById('linkUrl').value.trim();
@@ -263,123 +180,103 @@
             }
 
             const links = loadLinks();
-            
-            // Verificar se slug já existe
-            if (links.some(link => link.slug === slug)) {
-                alert('Este slug já existe! Escolha outro.');
+            if (links.some(l => l.slug === slug)) {
+                alert('Este slug já existe!');
                 return;
             }
 
-            const newLink = {
-                id: generateId(),
-                name: name,
-                url: url,
-                slug: slug,
-                clicks: 0,
-                createdAt: new Date().toISOString()
-            };
-
-            links.push(newLink);
+            links.push({ id: Date.now().toString(), name, url, slug, clicks: 0 });
             saveLinks(links);
             
-            // Limpar formulário
             document.getElementById('linkName').value = '';
             document.getElementById('linkUrl').value = '';
             document.getElementById('linkSlug').value = '';
             
-            // Mostrar resultado
-            const linkUrl = `${window.location.origin}/r/${slug}`;
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = `
-                <strong>✅ Link criado com sucesso!</strong><br>
-                Seu link rastreável:<br>
-                <a href="${linkUrl}" target="_blank">${linkUrl}</a>
-            `;
-            resultDiv.style.display = 'block';
-            
-            setTimeout(() => {
-                resultDiv.style.display = 'none';
-            }, 5000);
+            document.getElementById('result').innerHTML = `✅ Link criado! <br> 🔗 ${window.location.origin}/r/${slug}`;
+            setTimeout(() => document.getElementById('result').innerHTML = '', 5000);
             
             renderLinks();
         }
 
-        // Contar clique
-        function registerClick(slug) {
+        function openEditModal(id) {
             const links = loadLinks();
-            const link = links.find(l => l.slug === slug);
+            const link = links.find(l => l.id === id);
             if (link) {
-                link.clicks++;
+                editId = id;
+                document.getElementById('editName').value = link.name;
+                document.getElementById('editUrl').value = link.url;
+                document.getElementById('editModal').style.display = 'flex';
+            }
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+            editId = null;
+        }
+
+        function saveEdit() {
+            const newName = document.getElementById('editName').value.trim();
+            const newUrl = document.getElementById('editUrl').value.trim();
+
+            if (!newName || !newUrl) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+
+            const links = loadLinks();
+            const index = links.findIndex(l => l.id === editId);
+            if (index !== -1) {
+                links[index].name = newName;
+                links[index].url = newUrl;
                 saveLinks(links);
                 renderLinks();
-                // Redirecionar
-                window.location.href = link.url;
-            } else {
-                document.body.innerHTML = '<div style="text-align: center; padding: 50px;"><h1>🔗 Link não encontrado</h1><p>Verifique o endereço e tente novamente.</p></div>';
+                closeEditModal();
             }
         }
 
-        // Deletar link
         function deleteLink(id) {
-            if (confirm('Tem certeza que deseja excluir este link?')) {
+            if (confirm('Excluir este link?')) {
                 const links = loadLinks();
-                const newLinks = links.filter(link => link.id !== id);
-                saveLinks(newLinks);
+                saveLinks(links.filter(l => l.id !== id));
                 renderLinks();
             }
         }
 
-        // Renderizar lista de links
         function renderLinks() {
             const links = loadLinks();
             const container = document.getElementById('linksList');
-            const totalClicksSpan = document.getElementById('totalClicks');
-            
-            const totalClicks = links.reduce((sum, link) => sum + link.clicks, 0);
-            totalClicksSpan.innerHTML = `Total: ${totalClicks} clique${totalClicks !== 1 ? 's' : ''}`;
+            const total = links.reduce((s, l) => s + l.clicks, 0);
+            document.getElementById('totalClicks').innerHTML = `Total: ${total} clique${total !== 1 ? 's' : ''}`;
             
             if (links.length === 0) {
-                container.innerHTML = '<div class="empty-state">📭 Nenhum link criado ainda. Crie seu primeiro link acima!</div>';
+                container.innerHTML = '<div class="empty-state">📭 Nenhum link criado ainda</div>';
                 return;
             }
             
             container.innerHTML = links.map(link => `
                 <div class="link-item">
                     <div class="link-info">
-                        <div class="link-name">${escapeHtml(link.name)}</div>
+                        <div class="link-name">${link.name}</div>
                         <div class="link-url">🔗 ${window.location.origin}/r/${link.slug}</div>
-                        <div class="link-url">🎯 ${escapeHtml(link.url)}</div>
+                        <div class="link-url">🎯 ${link.url}</div>
                     </div>
-                    <div class="link-stats">
-                        <div class="link-clicks">${link.clicks}</div>
-                        <div class="link-label">cliques</div>
-                        <button class="btn-delete" onclick="deleteLink('${link.id}')">🗑️ Excluir</button>
+                    <div style="text-align: right;">
+                        <div class="link-clicks">${link.clicks} cliques</div>
+                        <button class="btn-edit" onclick="openEditModal('${link.id}')">✏️ Editar</button>
+                        <button class="btn-delete" onclick="deleteLink('${link.id}')">Excluir</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Função auxiliar para escapar HTML
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+        renderLinks();
 
-        // Verificar se é uma página de redirecionamento
-        function checkRedirect() {
-            const path = window.location.pathname;
-            if (path.startsWith('/r/')) {
-                const slug = path.replace('/r/', '');
-                registerClick(slug);
-                return true;
+        // Fechar modal clicando fora
+        window.onclick = function(event) {
+            const modal = document.getElementById('editModal');
+            if (event.target === modal) {
+                closeEditModal();
             }
-            return false;
-        }
-
-        // Inicializar
-        if (!checkRedirect()) {
-            renderLinks();
         }
     </script>
 </body>
