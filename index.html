@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Links Rastreáveis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #00ff88;
+        }
+
+        .subtitle {
+            color: #888;
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+
+        /* Formulário */
+        .form-card {
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            background: #0a0a0a;
+            color: white;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #00ff88;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #00ff88, #00cc6e);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Resultado */
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #0a0a0a;
+            border-radius: 10px;
+            display: none;
+            border: 1px solid #00ff88;
+        }
+
+        .result a {
+            color: #00ff88;
+            word-break: break-all;
+        }
+
+        /* Lista de links */
+        .links-section {
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid #333;
+        }
+
+        .links-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .total-clicks {
+            color: #00ff88;
+            font-weight: 600;
+        }
+
+        .link-item {
+            background: #0a0a0a;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .link-info {
+            flex: 1;
+        }
+
+        .link-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .link-url {
+            font-size: 12px;
+            color: #888;
+            word-break: break-all;
+        }
+
+        .link-stats {
+            text-align: right;
+        }
+
+        .link-clicks {
+            color: #00ff88;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .link-label {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            width: auto;
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #666;
+            padding: 40px;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 20px; }
+            .form-card, .links-section { padding: 20px; }
+            .link-item { flex-direction: column; text-align: center; }
+            .link-stats { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 Meus Links Rastreáveis</h1>
+        <p class="subtitle">Crie links e veja quantas pessoas clicaram. Dados salvos no seu navegador.</p>
+
+        <!-- Formulário para criar link -->
+        <div class="form-card">
+            <div class="form-group">
+                <label>📝 Nome do link</label>
+                <input type="text" id="linkName" placeholder="Ex: Promoção Instagram">
+            </div>
+            <div class="form-group">
+                <label>🔗 URL de destino</label>
+                <input type="text" id="linkUrl" placeholder="https://exemplo.com">
+            </div>
+            <div class="form-group">
+                <label>🏷️ Slug (identificador único)</label>
+                <input type="text" id="linkSlug" placeholder="Ex: promocao-instagram">
+                <small style="color: #666;">Use letras minúsculas e hífen. Ex: promocao-instagram</small>
+            </div>
+            <button onclick="createLink()">✨ Criar Link Rastreável</button>
+            <div id="result" class="result"></div>
+        </div>
+
+        <!-- Lista de links -->
+        <div class="links-section">
+            <div class="links-header">
+                <h3>📊 Meus Links</h3>
+                <div class="total-clicks" id="totalClicks">Total: 0 cliques</div>
+            </div>
+            <div id="linksList"></div>
+        </div>
+    </div>
+
+    <script>
+        // Chave para salvar no localStorage
+        const STORAGE_KEY = 'meus_links_rastreaveis';
+
+        // Carregar links do localStorage
+        function loadLinks() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            return saved ? JSON.parse(saved) : [];
+        }
+
+        // Salvar links no localStorage
+        function saveLinks(links) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
+        }
+
+        // Gerar ID único
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        // Criar novo link
+        function createLink() {
+            const name = document.getElementById('linkName').value.trim();
+            const url = document.getElementById('linkUrl').value.trim();
+            const slug = document.getElementById('linkSlug').value.trim().toLowerCase().replace(/\s+/g, '-');
+
+            if (!name || !url || !slug) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+
+            const links = loadLinks();
+            
+            // Verificar se slug já existe
+            if (links.some(link => link.slug === slug)) {
+                alert('Este slug já existe! Escolha outro.');
+                return;
+            }
+
+            const newLink = {
+                id: generateId(),
+                name: name,
+                url: url,
+                slug: slug,
+                clicks: 0,
+                createdAt: new Date().toISOString()
+            };
+
+            links.push(newLink);
+            saveLinks(links);
+            
+            // Limpar formulário
+            document.getElementById('linkName').value = '';
+            document.getElementById('linkUrl').value = '';
+            document.getElementById('linkSlug').value = '';
+            
+            // Mostrar resultado
+            const linkUrl = `${window.location.origin}/r/${slug}`;
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <strong>✅ Link criado com sucesso!</strong><br>
+                Seu link rastreável:<br>
+                <a href="${linkUrl}" target="_blank">${linkUrl}</a>
+            `;
+            resultDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                resultDiv.style.display = 'none';
+            }, 5000);
+            
+            renderLinks();
+        }
+
+        // Contar clique
+        function registerClick(slug) {
+            const links = loadLinks();
+            const link = links.find(l => l.slug === slug);
+            if (link) {
+                link.clicks++;
+                saveLinks(links);
+                renderLinks();
+                // Redirecionar
+                window.location.href = link.url;
+            } else {
+                document.body.innerHTML = '<div style="text-align: center; padding: 50px;"><h1>🔗 Link não encontrado</h1><p>Verifique o endereço e tente novamente.</p></div>';
+            }
+        }
+
+        // Deletar link
+        function deleteLink(id) {
+            if (confirm('Tem certeza que deseja excluir este link?')) {
+                const links = loadLinks();
+                const newLinks = links.filter(link => link.id !== id);
+                saveLinks(newLinks);
+                renderLinks();
+            }
+        }
+
+        // Renderizar lista de links
+        function renderLinks() {
+            const links = loadLinks();
+            const container = document.getElementById('linksList');
+            const totalClicksSpan = document.getElementById('totalClicks');
+            
+            const totalClicks = links.reduce((sum, link) => sum + link.clicks, 0);
+            totalClicksSpan.innerHTML = `Total: ${totalClicks} clique${totalClicks !== 1 ? 's' : ''}`;
+            
+            if (links.length === 0) {
+                container.innerHTML = '<div class="empty-state">📭 Nenhum link criado ainda. Crie seu primeiro link acima!</div>';
+                return;
+            }
+            
+            container.innerHTML = links.map(link => `
+                <div class="link-item">
+                    <div class="link-info">
+                        <div class="link-name">${escapeHtml(link.name)}</div>
+                        <div class="link-url">🔗 ${window.location.origin}/r/${link.slug}</div>
+                        <div class="link-url">🎯 ${escapeHtml(link.url)}</div>
+                    </div>
+                    <div class="link-stats">
+                        <div class="link-clicks">${link.clicks}</div>
+                        <div class="link-label">cliques</div>
+                        <button class="btn-delete" onclick="deleteLink('${link.id}')">🗑️ Excluir</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Função auxiliar para escapar HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Verificar se é uma página de redirecionamento
+        function checkRedirect() {
+            const path = window.location.pathname;
+            if (path.startsWith('/r/')) {
+                const slug = path.replace('/r/', '');
+                registerClick(slug);
+                return true;
+            }
+            return false;
+        }
+
+        // Inicializar
+        if (!checkRedirect()) {
+            renderLinks();
+        }
+    </script>
+</body>
+</html>

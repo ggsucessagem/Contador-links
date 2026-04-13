@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecionando...</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #0a0a0a;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #333;
+            border-top-color: #00ff88;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="loader"></div>
+        <p>Redirecionando...</p>
+    </div>
+
+    <script>
+        // Chave para salvar no localStorage
+        const STORAGE_KEY = 'meus_links_rastreaveis';
+
+        function loadLinks() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            return saved ? JSON.parse(saved) : [];
+        }
+
+        function saveLinks(links) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
+        }
+
+        // Pegar o slug da URL
+        const slug = window.location.pathname.split('/').pop();
+
+        // Registrar clique e redirecionar
+        const links = loadLinks();
+        const link = links.find(l => l.slug === slug);
+
+        if (link) {
+            link.clicks++;
+            saveLinks(links);
+            window.location.href = link.url;
+        } else {
+            document.body.innerHTML = '<div><h1>🔗 Link não encontrado</h1><p>Verifique o endereço e tente novamente.</p></div>';
+        }
+    </script>
+</body>
+</html>
